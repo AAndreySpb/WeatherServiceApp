@@ -1,13 +1,17 @@
-package aidl
+package aidl;
 
-import android.os.Parcelable;ass is a Plain Old Java Object (POJO) used for data
+import android.os.Parcel;
+import android.os.Parcelable;
+
+/**
+ * This class is a Plain Old Java Object (POJO) used for data
  * transport within the WeatherService app.  This POJO implements the
  * Parcelable interface to enable IPC between the WeatherActivity and
  * the WeatherServiceSync and WeatherServiceAsync. It represents the
  * response Json obtained from the Open Weather Map API, e.g., a call
  * to http://api.openweathermap.org/data/2.5/weather?q=Nashville,TN
  * might return the following Json data:
- * 
+ *
  * { "coord":{ "lon":-86.78, "lat":36.17 }, "sys":{ "message":0.0138,
  * "country":"United States of America", "sunrise":1431427373,
  * "sunset":1431477841 }, "weather":[ { "id":802, "main":"Clouds",
@@ -29,7 +33,8 @@ import android.os.Parcelable;ass is a Plain Old Java Object (POJO) used for data
  * https://developer.android.com/reference/android/os/Parcelable.html.
  */
 public class WeatherData implements Parcelable {
-    Parcelable* These data members are the local variables that will store the
+    /*
+     * These data members are the local variables that will store the
      * WeatherData's state
      */
     private String mName;
@@ -42,7 +47,7 @@ public class WeatherData implements Parcelable {
 
     /**
      * Constructor
-     * 
+     *
      * @param name
      * @param speed
      * @param deg
@@ -72,13 +77,13 @@ public class WeatherData implements Parcelable {
      */
     @Override
     public String toString() {
-        return "WeatherData [name=" + mName 
-            + ", speed=" + mSpeed
-            + ", deg=" + mDeg 
-            + ", temp=" + mTemp 
-            + ", humidity=" + mHumidity 
-            + ", sunrise=" + mSunrise 
-            + ", sunset=" + mSunset + "]";
+        return "WeatherData [name=" + mName
+                + ", speed=" + mSpeed
+                + ", deg=" + mDeg
+                + ", temp=" + mTemp
+                + ", humidity=" + mHumidity
+                + ", sunrise=" + mSunrise
+                + ", sunset=" + mSunset + "]";
     }
 
     /*
@@ -134,13 +139,13 @@ public class WeatherData implements Parcelable {
      * from a Parcel.
      */
     public static final Parcelable.Creator<WeatherData> CREATOR =
-        new Parcelable.Creator<WeatherData>() {
-            public WeatherData createFromParcel(Parcel in) {
-                return new WeatherData(in);
-            }
+            new Parcelable.Creator<WeatherData>() {
+                public WeatherData createFromParcel(Parcel in) {
+                    return new WeatherData(in);
+                }
 
-            public WeatherData[] newArray(int size) {
-                return new WeatherData[size];
-            }
-        };
+                public WeatherData[] newArray(int size) {
+                    return new WeatherData[size];
+                }
+            };
 }

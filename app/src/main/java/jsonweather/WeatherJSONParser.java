@@ -18,15 +18,16 @@ public class WeatherJSONParser {
      * Used for logging purposes.
      */
     private final String TAG =
-        this.getClass().getCanonicalName();
+            this.getClass().getCanonicalName();
 
     /**
      * Parse the @a inputStream and convert it into a List of JsonWeather
      * objects.
      */
     public List<JsonWeather> parseJsonStream(InputStream inputStream)
-        throws IOException {
+            throws IOException {
         // TODO -- you fill in here.
+        return null;
     }
 
     /**
@@ -34,8 +35,9 @@ public class WeatherJSONParser {
      * object.
      */
     public JsonWeather parseJsonStreamSingle(JsonReader reader)
-        throws IOException {
+            throws IOException {
         // TODO -- you fill in here.
+        return null;
     }
 
     /**
@@ -43,53 +45,60 @@ public class WeatherJSONParser {
      * objects.
      */
     public List<JsonWeather> parseJsonWeatherArray(JsonReader reader)
-        throws IOException {
+            throws IOException {
 
         // TODO -- you fill in here.
+        return null;
     }
 
     /**
      * Parse a Json stream and return a JsonWeather object.
      */
-    public JsonWeather parseJsonWeather(JsonReader reader) 
-        throws IOException {
+    public JsonWeather parseJsonWeather(JsonReader reader)
+            throws IOException {
 
         // TODO -- you fill in here.
+        return null;
     }
-    
+
     /**
      * Parse a Json stream and return a List of Weather objects.
      */
     public List<Weather> parseWeathers(JsonReader reader) throws IOException {
         // TODO -- you fill in here.
+        return null;
     }
 
     /**
      * Parse a Json stream and return a Weather object.
      */
     public Weather parseWeather(JsonReader reader) throws IOException {
-        // TODO -- you fill in here.    
+        // TODO -- you fill in here.
+        return null;
     }
-    
+
     /**
      * Parse a Json stream and return a Main Object.
      */
-    public Main parseMain(JsonReader reader) 
-        throws IOException {
-        // TODO -- you fill in here.    
+    public Main parseMain(JsonReader reader)
+            throws IOException {
+        // TODO -- you fill in here.
+        return null;
     }
 
     /**
      * Parse a Json stream and return a Wind Object.
      */
     public Wind parseWind(JsonReader reader) throws IOException {
-        // TODO -- you fill in here.    
+        // TODO -- you fill in here.
+        return null;
     }
 
     /**
      * Parse a Json stream and return a Sys Object.
      */
-    public Sys parseSys(JsonReader reader)
-        // TODO -- you fill in here.    
+    public Sys parseSys(JsonReader reader){
+    // TODO -- you fill in here.
+    return null;
     }
 }
