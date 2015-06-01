@@ -255,7 +255,7 @@ public class MainActivity extends LifecycleLoggingActivity {
         if(mWeatherRequest != null) {
             try {
                 Log.d(TAG,
-                        "Calling oneway DownloadServiceAsync.downloadImage()");
+                        "Calling oneway mWeatherRequest.getCurrentWeather()");
 
                 mWeatherRequest.getCurrentWeather(mPointText.getText().toString(),
                         mWeatherResults);
@@ -268,7 +268,7 @@ public class MainActivity extends LifecycleLoggingActivity {
     private void getWeatherSync() {
         if (mWeatherCall != null) {
             Log.d(TAG,
-                    "Calling twoway DownloadServiceSync.downloadImage()");
+                    "Calling twoway mWeatherCall.getCurrentWeather()");
             /**
              * Define an AsyncTask instance to avoid blocking the UI Thread.
              * */
@@ -294,12 +294,12 @@ public class MainActivity extends LifecycleLoggingActivity {
                 protected void onPostExecute(List<WeatherData> result) {
                     if (result != null)
                     {
+                        Log.d(TAG, "in Post execute, start new activity");
                         Intent intent = new Intent(MainActivity.this, WeatherResultsActivity.class);
                         startActivity(intent);
                     }
                     //    displayBitmap(result);
                 }
-                //@@TODO past real location
             }.execute(mPointText.getText().toString());
         }
     }

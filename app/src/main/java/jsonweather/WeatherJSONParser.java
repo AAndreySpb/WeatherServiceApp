@@ -26,8 +26,29 @@ public class WeatherJSONParser {
      */
     public List<JsonWeather> parseJsonStream(InputStream inputStream)
             throws IOException {
-        // TODO -- you fill in here.
-        return null;
+        JsonReader reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"));
+        try {
+            return parseJsonWeatherArray(reader);
+        }finally {
+                reader.close();
+            }
+    }
+
+    /**
+     * Parse a Json stream and convert it into a List of JsonWeather
+     * objects.
+     */
+    public List<JsonWeather> parseJsonWeatherArray(JsonReader reader)
+            throws IOException {
+
+        List<JsonWeather> messages = new ArrayList();
+
+        reader.beginObject();
+        while (reader.hasNext()) {
+            messages.add(parseJsonStreamSingle(reader));
+        }
+        reader.endObject();
+        return messages;
     }
 
     /**
@@ -40,16 +61,7 @@ public class WeatherJSONParser {
         return null;
     }
 
-    /**
-     * Parse a Json stream and convert it into a List of JsonWeather
-     * objects.
-     */
-    public List<JsonWeather> parseJsonWeatherArray(JsonReader reader)
-            throws IOException {
 
-        // TODO -- you fill in here.
-        return null;
-    }
 
     /**
      * Parse a Json stream and return a JsonWeather object.

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Log;
 
 import jsonweather.Weather;
 
@@ -13,6 +14,8 @@ import jsonweather.Weather;
  * Created by Адрей on 31.05.2015.
  */
 public class WeatherServiceAsync  extends Service {
+
+    protected final String TAG = getClass().getSimpleName();
 
     /**
      * The concrete implementation of the AIDL Interface
@@ -35,11 +38,8 @@ public class WeatherServiceAsync  extends Service {
         public void getCurrentWeather(String location,
                                   WeatherResults results)
                 throws RemoteException {
-            // Download the file using the appropriate helper
-            // method in DownloadUtils and then send the pathname
-            // back to the client via the Results object.
-            //@@TODO add here real results for weather
-            results.sendResults(null);
+            Log.d(TAG, "get results async");
+            results.sendResults(HttpUtils.getWeather(location));
         }
     };
 
@@ -50,8 +50,7 @@ public class WeatherServiceAsync  extends Service {
      */
     @Override
     public IBinder onBind(Intent intent) {
-        //@@ TODO here should be right implementation
-        return null;
+        return mDownloadRequestImpl;
     }
 
     /**
