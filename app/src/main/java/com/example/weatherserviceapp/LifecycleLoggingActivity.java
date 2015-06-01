@@ -1,8 +1,10 @@
-package com.example.weatherserviceapp.Activities;
+package com.example.weatherserviceapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 
 /**
  * This abstract class extends the Activity class and overrides
