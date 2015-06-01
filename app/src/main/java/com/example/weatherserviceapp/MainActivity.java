@@ -2,6 +2,7 @@ package com.example.weatherserviceapp;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -278,6 +279,7 @@ public class MainActivity extends LifecycleLoggingActivity {
                 @Override
                 protected List<WeatherData> doInBackground(String... params) {
                     try {
+                        Log.d(TAG, "in AsyncTask");
                         return mWeatherCall.getCurrentWeather(params[0]);
                     } catch(RemoteException e) {
                         e.printStackTrace();
@@ -290,10 +292,10 @@ public class MainActivity extends LifecycleLoggingActivity {
                  */
                 @Override
                 protected void onPostExecute(List<WeatherData> result) {
-                    //@@TODO start new activity to show weather
                     if (result != null)
                     {
-
+                        Intent intent = new Intent(MainActivity.this, WeatherResultsActivity.class);
+                        startActivity(intent);
                     }
                     //    displayBitmap(result);
                 }
