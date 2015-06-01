@@ -291,7 +291,10 @@ public class MainActivity extends LifecycleLoggingActivity {
                 @Override
                 protected void onPostExecute(List<WeatherData> result) {
                     //@@TODO start new activity to show weather
-                    //if (result != null)
+                    if (result != null)
+                    {
+
+                    }
                     //    displayBitmap(result);
                 }
                 //@@TODO past real location

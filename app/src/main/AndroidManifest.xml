@@ -17,12 +17,17 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".WeatherServiceAsync"
-            android:process=":myProcess3"/>
+        <service
+            android:name=".WeatherServiceAsync"
+            android:process=":myProcess3" />
+        <service
+            android:name=".WeatherServiceSync"
+            android:process=":myProcess4" />
 
-        <service android:name=".WeatherServiceSync"
-            android:process=":myProcess4"/>
-
+        <activity
+            android:name=".WeatherResutsActivity"
+            android:label="@string/title_activity_weather_resuts" >
+        </activity>
     </application>
 
 </manifest>
