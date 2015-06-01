@@ -1,6 +1,7 @@
 package com.example.weatherserviceapp;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.IBinder;
@@ -51,5 +52,17 @@ public class WeatherServiceAsync  extends Service {
     public IBinder onBind(Intent intent) {
         //@@ TODO here should be right implementation
         return null;
+    }
+
+    /**
+     * Make an explicit Intent that will start this service when
+     * passed to bindService().
+     *
+     * @param context		The context of the calling component.
+     */
+    public static Intent makeIntent(Context context) {
+        // Create an explicit Intent and return it to the caller.
+        return new Intent(context,
+                WeatherServiceAsync.class);
     }
 }

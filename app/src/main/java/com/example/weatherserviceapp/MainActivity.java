@@ -1,9 +1,12 @@
 package com.example.weatherserviceapp;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.Menu;
@@ -51,6 +54,38 @@ public class MainActivity extends LifecycleLoggingActivity {
     protected final RetainedFragmentManager mRetainedFragmentManager =
             new RetainedFragmentManager(this.getFragmentManager(),
                     TAG);
+
+
+    /**
+     * This ServiceConnection is used to receive results after binding
+     * to the DownloadServiceAsync Service using bindService().
+     */
+    ServiceConnection mServiceConnectionAsync = new ServiceConnection() {
+        /**
+         * Cast the returned IBinder object to the DownloadRequest
+         * AIDL Interface and store it for later use in
+         * mDownloadRequest.
+         */
+        @Override
+        public void onServiceConnected(ComponentName name,
+                                       IBinder service) {
+            // Call the generated stub method to convert the
+            // service parameter into an interface that can be
+            // used to make RPC calls to the Service.
+            mWeatherRequest =
+                    WeatherRequest.Stub.asInterface(service);
+        }
+
+        /**
+         * Called if the remote service crashes and is no longer
+         * available.  The ServiceConnection will remain bound,
+         * but the service will not respond to any requests.
+         */
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mWeatherRequest = null;
+        }
+    };
 
 
     /**
@@ -104,7 +139,16 @@ public class MainActivity extends LifecycleLoggingActivity {
             Log.d(TAG,
                     "First time onCreate() call");
 
-            //@@TODO fill data
+            // Bind this activity to the DownloadBoundService* Services if
+            // they aren't already bound Use mBoundSync/mBoundAsync
+            if(mWeatherCall == null)
+                bindService(WeatherServiceSync.makeIntent(this),
+                        mServiceConnectionSync,
+                        BIND_AUTO_CREATE);
+            if(mWeatherRequest == null)
+                bindService(WeatherServiceAsync.makeIntent(this),
+                        mServiceConnectionAsync,
+                        BIND_AUTO_CREATE);
 
         } else {
             // The RetainedFragmentManager was previously initialized,
@@ -120,6 +164,38 @@ public class MainActivity extends LifecycleLoggingActivity {
 
         }
     }
+
+    /**
+     * This ServiceConnection is used to receive results after binding
+     * to the DownloadServiceSync Service using bindService().
+     */
+    ServiceConnection mServiceConnectionSync = new ServiceConnection() {
+        /**
+         * Cast the returned IBinder object to the DownloadCall
+         * AIDL Interface and store it for later use in
+         * mDownloadCall.
+         */
+        @Override
+        public void onServiceConnected(ComponentName name,
+                                       IBinder service) {
+            Log.d(TAG, "ComponentName: " + name);
+            // Call the generated stub method to convert the
+            // service parameter into an interface that can be
+            // used to make RPC calls to the Service.
+            mWeatherCall =
+                    WeatherCall.Stub.asInterface(service);
+        }
+
+        /**
+         * Called if the remote service crashes and is no longer
+         * available.  The ServiceConnection will remain bound,
+         * but the service will not respond to any requests.
+         */
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mWeatherCall = null;
+        }
+    };
 
     /**
      * Hide the keyboard after a user has finished typing the url.
@@ -180,10 +256,7 @@ public class MainActivity extends LifecycleLoggingActivity {
                 Log.d(TAG,
                         "Calling oneway DownloadServiceAsync.downloadImage()");
 
-                // Call downloadImage() on mDownloadRequest, passing in
-                // the appropriate Uri and Results.
-                //@@TODO download weather
-                mWeatherRequest.getCurrentWeather("",
+                mWeatherRequest.getCurrentWeather(mPointText.getText().toString(),
                         mWeatherResults);
             } catch(RemoteException e) {
                 e.printStackTrace();
@@ -222,7 +295,7 @@ public class MainActivity extends LifecycleLoggingActivity {
                     //    displayBitmap(result);
                 }
                 //@@TODO past real location
-            }.execute("");
+            }.execute(mPointText.getText().toString());
         }
     }
 }

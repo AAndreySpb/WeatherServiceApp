@@ -37,12 +37,13 @@
         android:layout_height="wrap_content"
         android:text="Get Weather Sync"
         android:textStyle="bold"
-        android:id="@+id/button"
+        android:id="@+id/button_get_sync"
         android:textColor="#FFFFFF"
         android:background="#67b2ce"
+        android:onClick="runService"
         android:textSize="18dp"
         android:layout_marginBottom="2sp"
-        android:layout_above="@+id/button_get_sync"
+        android:layout_above="@+id/button_get_async"
         android:layout_alignParentEnd="true"
         android:layout_weight="1"/>
 
@@ -50,6 +51,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Get Weather Async"
+        android:onClick="runService"
         android:id="@+id/button_get_async"
         android:textStyle="bold"
         android:textColor="#FFFFFF"

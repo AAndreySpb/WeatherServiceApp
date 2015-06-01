@@ -1,10 +1,12 @@
 package com.example.weatherserviceapp;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Log;
 
 import java.util.List;
 
@@ -13,6 +15,7 @@ import java.util.List;
  */
 public class WeatherServiceSync extends Service {
 
+    protected final String TAG = getClass().getSimpleName();
     /**
      * An implementation of the AIDL Interface DownloadCall.  We
      * extend the Stub class, which implements DownloadCall, so that
@@ -31,7 +34,9 @@ public class WeatherServiceSync extends Service {
          */
         @Override
         public List<WeatherData> getCurrentWeather(String Weather){
-            return null;
+            Log.d(TAG,
+                    "admin/admin(): get weather in:" + Weather);
+            return HttpUtils.getWeather(Weather);
         }
     };
 
@@ -42,7 +47,19 @@ public class WeatherServiceSync extends Service {
      */
     @Override
     public IBinder onBind(Intent intent) {
-        //@@ TODO here should be right implementation
-        return null;
+
+        return mDownloadCallImpl;
+    }
+
+    /**
+     * Make an explicit Intent that will start this service when
+     * passed to bindService().
+     *
+     * @param context		The context of the calling component.
+     */
+    public static Intent makeIntent(Context context) {
+        // Create an explicit Intent and return it to the caller.
+        return new Intent(context,
+                WeatherServiceSync.class);
     }
 }
