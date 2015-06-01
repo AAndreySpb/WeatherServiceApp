@@ -34,7 +34,7 @@ public class MainActivity extends LifecycleLoggingActivity {
      * Requestor in the Broker Pattern.  If it's null then there's no
      * connection to the Service.
      */
-    WeatherCall mWeatherCall;
+    private WeatherCall mWeatherCall;
 
     /**
      * The AIDL Interface that we will use to make oneway calls to the
@@ -42,7 +42,15 @@ public class MainActivity extends LifecycleLoggingActivity {
      * in the Broker Pattern.  If it's null then there's no connection
      * to the Service.
      */
-    WeatherRequest mWeatherRequest;
+    private WeatherRequest mWeatherRequest;
+
+    /**
+     * Used to retain the ImageOps state between runtime configuration
+     * changes.
+     */
+    protected final RetainedFragmentManager mRetainedFragmentManager =
+            new RetainedFragmentManager(this.getFragmentManager(),
+                    TAG);
 
 
     /**
@@ -82,6 +90,35 @@ public class MainActivity extends LifecycleLoggingActivity {
         setContentView(R.layout.activity_main);
 
         mPointText = (EditText) findViewById(R.id.editText);
+
+        handleConfigurationChanges();
+    }
+
+    /**
+     * Handle hardware reconfigurations, such as rotating the display.
+     */
+    protected void handleConfigurationChanges() {
+        // If this method returns true then this is the first time the
+        // Activity has been created.
+        if (mRetainedFragmentManager.firstTimeIn()) {
+            Log.d(TAG,
+                    "First time onCreate() call");
+
+            //@@TODO fill data
+
+        } else {
+            // The RetainedFragmentManager was previously initialized,
+            // which means that a runtime configuration change
+            // occured.
+
+            Log.d(TAG,
+                    "Second or subsequent onCreate() call");
+
+
+            //@@TODO get saved data
+
+
+        }
     }
 
     /**
