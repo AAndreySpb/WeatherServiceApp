@@ -44,6 +44,7 @@ public class WeatherData implements Parcelable {
     private long mHumidity;
     private long mSunrise;
     private long mSunset;
+    private String mIcon;
 
     /**
      * Constructor
@@ -62,7 +63,8 @@ public class WeatherData implements Parcelable {
                        double temp,
                        long humidity,
                        long sunrise,
-                       long sunset) {
+                       long sunset,
+                       String icon) {
         mName = name;
         mSpeed = speed;
         mDeg = deg;
@@ -70,7 +72,17 @@ public class WeatherData implements Parcelable {
         mHumidity = humidity;
         mSunrise = sunrise;
         mSunset = sunset;
+        mIcon = icon;
     }
+
+    public String getName() { return mName; }
+    public String getIcon() { return mIcon; }
+    public  double getSpeed() { return mSpeed; }
+    public double getDeg() { return mDeg; }
+    public double getTemp() { return mTemp; }
+    public long getHumidity() { return mHumidity; }
+    public long getSunrise() { return mSunrise; }
+    public long getSunset() { return mSunset; }
 
     /**
      * Provides a printable representation of this object.
@@ -83,7 +95,8 @@ public class WeatherData implements Parcelable {
                 + ", temp=" + mTemp
                 + ", humidity=" + mHumidity
                 + ", sunrise=" + mSunrise
-                + ", sunset=" + mSunset + "]";
+                + ", sunset=" + mSunset
+                + ", icon=" + mIcon + "]";
     }
 
     /*
@@ -111,6 +124,7 @@ public class WeatherData implements Parcelable {
         dest.writeLong(mHumidity);
         dest.writeLong(mSunrise);
         dest.writeLong(mSunset);
+        dest.writeString(mIcon);
     }
 
     /**
@@ -130,6 +144,7 @@ public class WeatherData implements Parcelable {
         mHumidity = in.readLong();
         mSunrise = in.readLong();
         mSunset = in.readLong();
+        mIcon = in.readString();
     }
 
     /**

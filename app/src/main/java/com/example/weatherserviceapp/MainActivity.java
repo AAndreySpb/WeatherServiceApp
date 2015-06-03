@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.weatherserviceapp.LifecycleLoggingActivity;
 import com.example.weatherserviceapp.R;
@@ -251,6 +252,16 @@ public class MainActivity extends LifecycleLoggingActivity {
         }
     }
 
+    /**
+     * Show a toast message.
+     */
+    public static void showToast(Context context,
+                                 String message) {
+        Toast.makeText(context,
+                message,
+                Toast.LENGTH_SHORT).show();
+    }
+
     private void getWeatherAsync() {
         if(mWeatherRequest != null) {
             try {
@@ -296,8 +307,16 @@ public class MainActivity extends LifecycleLoggingActivity {
                     {
                         Log.d(TAG, "in Post execute, start new activity");
                         Intent intent = new Intent(MainActivity.this, WeatherResultsActivity.class);
+                        intent.putExtra("Name", result.get(0).getName());
+                        intent.putExtra("Icon", result.get(0).getIcon());
+                        intent.putExtra("Humidity", result.get(0).getHumidity());
+                        intent.putExtra("Temp", result.get(0).getTemp());
+                        intent.putExtra("Speed", result.get(0).getSpeed());
+                        intent.putExtra("Deg", result.get(0).getDeg());
                         startActivity(intent);
-                    }
+                    }else
+                        showToast(MainActivity.this, "There is no weather data for this city!");
+
                     //    displayBitmap(result);
                 }
             }.execute(mPointText.getText().toString());

@@ -12,6 +12,11 @@ public class WeatherResultsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_resuts);
+
+        String Name = getIntent().getStringExtra("Name");
+        String Icon = getIntent().getStringExtra("Icon");
+        double Temp = getIntent().getDoubleExtra("Temp", 0.0);
+
     }
 
 
