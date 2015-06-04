@@ -113,7 +113,7 @@ public class MainActivity extends LifecycleLoggingActivity {
             final Runnable displayRunnable = new Runnable() {
                 public void run() {
 
-                   //@@TODO add code for return results here
+                    startWeatherResultsActivity(results);
                 }
             };
 
@@ -303,23 +303,26 @@ public class MainActivity extends LifecycleLoggingActivity {
                  */
                 @Override
                 protected void onPostExecute(List<WeatherData> result) {
-                    if (result != null)
-                    {
-                        Log.d(TAG, "in Post execute, start new activity");
-                        Intent intent = new Intent(MainActivity.this, WeatherResultsActivity.class);
-                        intent.putExtra("Name", result.get(0).getName());
-                        intent.putExtra("Icon", result.get(0).getIcon());
-                        intent.putExtra("Humidity", result.get(0).getHumidity());
-                        intent.putExtra("Temp", result.get(0).getTemp());
-                        intent.putExtra("Speed", result.get(0).getSpeed());
-                        intent.putExtra("Deg", result.get(0).getDeg());
-                        startActivity(intent);
-                    }else
-                        showToast(MainActivity.this, "There is no weather data for this city!");
+                    startWeatherResultsActivity(result);
 
-                    //    displayBitmap(result);
                 }
             }.execute(mPointText.getText().toString());
         }
+    }
+
+    private void startWeatherResultsActivity(List<WeatherData> result) {
+        if (result != null)
+        {
+            Log.d(TAG, "in Post execute, start new activity");
+            Intent intent = new Intent(MainActivity.this, WeatherResultsActivity.class);
+            intent.putExtra("Name", result.get(0).getName());
+            intent.putExtra("Icon", result.get(0).getIcon());
+            intent.putExtra("Humidity", result.get(0).getHumidity());
+            intent.putExtra("Temp", result.get(0).getTemp());
+            intent.putExtra("Speed", result.get(0).getSpeed());
+            intent.putExtra("Deg", result.get(0).getDeg());
+            startActivity(intent);
+        }else
+            showToast(MainActivity.this, "There is no weather data for this city!");
     }
 }

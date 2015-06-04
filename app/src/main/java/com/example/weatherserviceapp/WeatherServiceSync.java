@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class WeatherServiceSync extends Service {
 
+    Cache ch = new Cache();
+
     protected final String TAG = getClass().getSimpleName();
     /**
      * An implementation of the AIDL Interface DownloadCall.  We
@@ -36,7 +38,13 @@ public class WeatherServiceSync extends Service {
         public List<WeatherData> getCurrentWeather(String Weather){
             Log.d(TAG,
                     "admin/admin(): get weather in:" + Weather);
-            return HttpUtils.getWeather(Weather);
+            List<WeatherData> data = (List<WeatherData>)ch.ReadFromCache(Weather);
+            if(data == null) {
+                data = HttpUtils.getWeather(Weather);
+                ch.WriteToCache(Weather, data);
+            }
+
+            return data;
         }
     };
 

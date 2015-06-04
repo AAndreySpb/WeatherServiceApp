@@ -8,6 +8,8 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
+import java.util.List;
+
 import jsonweather.Weather;
 
 /**
@@ -16,6 +18,8 @@ import jsonweather.Weather;
 public class WeatherServiceAsync  extends Service {
 
     protected final String TAG = getClass().getSimpleName();
+
+    Cache ch = new Cache();
 
     /**
      * The concrete implementation of the AIDL Interface
@@ -39,7 +43,13 @@ public class WeatherServiceAsync  extends Service {
                                   WeatherResults results)
                 throws RemoteException {
             Log.d(TAG, "get results async");
-            results.sendResults(HttpUtils.getWeather(location));
+            List<WeatherData> data = (List<WeatherData>)ch.ReadFromCache(location);
+            if(data == null) {
+                data = HttpUtils.getWeather(location);
+                ch.WriteToCache(location, data);
+            }
+
+            results.sendResults(data);
         }
     };
 
