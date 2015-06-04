@@ -10,11 +10,14 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.weatherserviceapp.LifecycleLoggingActivity;
@@ -141,16 +144,9 @@ public class MainActivity extends LifecycleLoggingActivity {
             Log.d(TAG,
                     "First time onCreate() call");
 
-            // Bind this activity to the DownloadBoundService* Services if
-            // they aren't already bound Use mBoundSync/mBoundAsync
-            if(mWeatherCall == null)
-                bindService(WeatherServiceSync.makeIntent(this),
-                        mServiceConnectionSync,
-                        BIND_AUTO_CREATE);
-            if(mWeatherRequest == null)
-                bindService(WeatherServiceAsync.makeIntent(this),
-                        mServiceConnectionAsync,
-                        BIND_AUTO_CREATE);
+            bindWeatherSync();
+
+            bindWeatherRequest();
 
         } else {
             // The RetainedFragmentManager was previously initialized,
@@ -161,10 +157,38 @@ public class MainActivity extends LifecycleLoggingActivity {
                     "Second or subsequent onCreate() call");
 
 
-            //@@TODO get saved data
+            mWeatherCall = mRetainedFragmentManager.get("WEATHER_CALL");
 
+            mWeatherRequest = mRetainedFragmentManager.get("WEATHER_REQUEST");
 
+            bindWeatherSync();
+
+            bindWeatherRequest();
         }
+    }
+
+    private void bindWeatherRequest() {
+        if(mWeatherRequest == null)
+            bindService(WeatherServiceAsync.makeIntent(this),
+                    mServiceConnectionAsync,
+                    BIND_AUTO_CREATE);
+
+
+        mRetainedFragmentManager.put("WEATHER_REQUEST",
+                mWeatherRequest);
+    }
+
+    private void bindWeatherSync() {
+        // Bind this activity to the DownloadBoundService* Services if
+        // they aren't already bound Use mBoundSync/mBoundAsync
+        if(mWeatherCall == null)
+            bindService(WeatherServiceSync.makeIntent(this),
+                    mServiceConnectionSync,
+                    BIND_AUTO_CREATE);
+
+
+        mRetainedFragmentManager.put("WEATHER_CALL",
+                mWeatherCall);
     }
 
     /**
@@ -257,9 +281,16 @@ public class MainActivity extends LifecycleLoggingActivity {
      */
     public static void showToast(Context context,
                                  String message) {
-        Toast.makeText(context,
+        Toast toast = Toast.makeText(context,
                 message,
-                Toast.LENGTH_SHORT).show();
+                Toast.LENGTH_SHORT);
+
+        LinearLayout toastLayout = (LinearLayout) toast.getView();
+        TextView toastTV = (TextView) toastLayout.getChildAt(0);
+        toastTV.setTextSize(30);
+        toastTV.setGravity(Gravity.CENTER);
+
+        toast.show();
     }
 
     private void getWeatherAsync() {
